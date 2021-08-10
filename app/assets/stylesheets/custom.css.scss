@@ -1,0 +1,27 @@
+@import 'bootstrap/dist/css/bootstrap';
+
+.search-area {
+    padding-top: 50px;
+}
+
+#results-block {
+    display: inline-block;
+}
+
+#homepage-card-header {
+    background-color: #000080;
+    color: white;
+}
+
+#homepage-card-footer {
+    background-color: #FFE4C4;
+    color: black;
+}
+
+#positive-card-value {
+    color: green;
+}
+
+#negative-card-value {
+    color: red;
+}

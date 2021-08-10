@@ -1,0 +1,33 @@
+<div class = "row text-center">
+    <div class="card mt-4 mb-4">
+        <div class="card-header" id="homepage-card-header">
+            <h3> Top 10 Liked Tweets by Category </h3>
+        </div>
+        <div class="card-body">
+            <%= pie_chart @df.sort(['like_count']).first(10)['tag'].value_counts, class:"mt-4 mb-4"%> 
+        </div>
+    </div>
+ </div>
+
+
+ <div class = "row text-center">
+    <div class="card mt-4 mb-4">
+        <div class="card-header" id="homepage-card-header">
+            <h3> Tweets with more than 100 likes by category </h3>
+        </div>
+        <div class="card-body">
+            <%= column_chart @df.where(@df['like_count'].gt(5))['tag'].value_counts, class:"mt-4 mb-4"%> 
+        </div>
+    </div>
+ </div>
+
+ <div class = "row text-center">
+    <div class="card mt-4 mb-4">
+        <div class="card-header" id="homepage-card-header">
+            <h3> Average Likes by tag </h3>
+        </div>
+        <div class="card-body">
+             
+        </div>
+    </div>
+ </div>

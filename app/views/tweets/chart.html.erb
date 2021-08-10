@@ -1,0 +1,40 @@
+<div class="container">
+
+    <div class = "row text-center">
+       
+            <div class="card mt-4 mb-4">
+                <div class="card-header" id="homepage-card-header">
+                    <h3> Tweets by Subject Area</h3>
+                </div>
+                <div class="card-body">
+                    <%= pie_chart @df['tag'].value_counts, class:"mt-4 mb-4"%> 
+                </div>
+            </div>
+    </div>
+
+
+    <div class = "row text-center">
+            <div class="card mt-4 mb-4">
+                <div class="card-header" id="homepage-card-header">
+                    <h3> Tweets Through Time </h3>
+                </div>
+                <div class="card-body">
+                    <%= line_chart @df['date'].value_counts, class:"mt-4 mb-4" %>
+                </div>
+            </div>
+    </div>
+
+
+    
+
+    
+
+</div>
+    
+
+
+    
+
+
+
+   
