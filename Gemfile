@@ -5,8 +5,7 @@ ruby '2.7.3'
 
 # Bundle edge Rails instead: gem 'rails', github: 'rails/rails', branch: 'main'
 gem 'rails', '~> 6.1.4'
-# Use sqlite3 as the database for Active Record
-gem 'sqlite3', '~> 1.4'
+
 # Use Puma as the app server
 gem 'puma', '~> 5.0'
 # Use SCSS for stylesheets
@@ -28,7 +27,11 @@ gem 'city-state'
 # Reduces boot times through caching; required in config/boot.rb
 gem 'bootsnap', '>= 1.4.4', require: false
 
-gem 'daru', '~> 0.1.5'
+gem 'daru'
+
+gem 'activerecord'
+
+gem 'spreadsheet', '~> 1.2', '>= 1.2.9'
 
 gem 'jsonpath', '~> 0.5.8'
 
@@ -41,6 +44,8 @@ gem 'json', '~> 1.8', '>= 1.8.3'
 group :development, :test do
   # Call 'byebug' anywhere in the code to stop execution and get a debugger console
   gem 'byebug', platforms: [:mri, :mingw, :x64_mingw]
+
+
 end
 
 group :development do
@@ -49,6 +54,13 @@ group :development do
   # Display performance information such as SQL time and flame graphs for each request in your browser.
   # Can be configured to work on production as well see: https://github.com/MiniProfiler/rack-mini-profiler/blob/master/README.md
   gem 'rack-mini-profiler', '~> 2.0'
+
+  # Use sqlite3 as the database for Active Record
+  gem 'sqlite3', '~> 1.4'
+end
+
+group :production do 
+  gem 'pg'
 end
 
 group :test do

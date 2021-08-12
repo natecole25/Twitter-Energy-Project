@@ -1,50 +1,49 @@
 class TweetsController < ApplicationController
     
-    
+    require 'daru/io/importers/active_record'
+    #Need to make sure this data is coming from database rather than spreadsheet
     def show
-        #grabs the twitter client from the Tweet model
-        #client = Tweet.produce_client
-        #Want to grab an embed code to embed a tweet
         
+        #@df = Daru::DataFrame.from_activerecord
+        #@df.vectors = Daru::Index.new([:date_tweeted, :tweet_id, :tag,	:tweet_text,:retweet_count ])
+        #@top_texas_tweets = @df.where(@df[:tag].eq("texas policy")).sort([:retweet_count]).last(10)[:tweet_text].uniq
+        #@general_energy_tweets = @df.where(@df[:tag].eq("general energy sentiment")).sort([:retweet_count]).last(10)[:tweet_text].uniq
         
-        @df = Daru::DataFrame.from_csv("C:/Users/ncole/OneDrive/Desktop/Twitter Stream Files/Final Policy Tweets.csv")
-        @top_tweets = @df.sort(['retweet_count']).last(100)['text'].uniq
+        @client = Twitter::REST::Client.new do |config|
+            config.consumer_key        = ENV['consumer_key']
+            config.consumer_secret     = ENV['consumer_secret_key']
+            config.access_token        = ENV['access_token']
+            config.access_token_secret = ENV['secret_access_token']
+        end
+        
+            
+    end
+
+    #Simply displays the button for migration to database
+    def form_for_tweet_creation
+    end 
+
+    #Simply displays the button for beginning to stream tweets
+    def start_streaming_tweets
+    end
+
+    #Convert spreadsheet data to database data on onetime basis
+    def create_tweet
+        @df = Daru::DataFrame.from_excel("C:/Users/ncole/twitter_energy/energypolicy_Energy_Tweets_100.xls")
+        @df.vectors = Daru::Index.new([:date, :id,	:tag,	:text,	:retweet_count,	:reply_count,	:like_count,	:quote_count])
+        @df.each(:row) do |row|
+            Tweet.create(tweet_id: row[:id], date_tweeted: row[:date], tag: row[:tag], tweet_text: row[:text], retweet_count: row[:retweet_count]  )
+        end
+        redirect_to root_path
     end
 
 
-    #Very difficult to show graph on page with ajax call. Probably just create navbar.
-    def chart
-        #returns a dataframe with tweet information which is then passed to be charted
-        @df = Daru::DataFrame.from_csv("C:/Users/ncole/OneDrive/Desktop/Twitter Stream Files/Final Policy Tweets.csv")
-        @texas = @df.where(@df['tag'].in(['texas policy']))['date'].value_counts
-        @general_sentiment = @df.where(@df['tag'].in(['general energy sentiment']))['date'].value_counts
-        
-        
+
+    def homepage
     end
 
-    def likes
-        @df = Daru::DataFrame.from_csv("C:/Users/ncole/OneDrive/Desktop/Twitter Stream Files/Final Policy Tweets.csv")
-        @most_like = @df.sort(['like_count']).first(10)
-        @likes_value_count = @most_like["tag"].value_counts
-        
-    end
 
     def retweets
-        @df = Daru::DataFrame.from_csv("C:/Users/ncole/OneDrive/Desktop/Twitter Stream Files/Final Policy Tweets.csv")
-        @df_grouped = Daru::DataFrame.from_csv("C:/Users/ncole/OneDrive/Desktop/Twitter Stream Files/Average Retweets by Tag.csv")
-        #Try to get average retweets by category
-        cats_count = {'texas policy'=> 0, 'california policy' => 0, 'general energy sentiment'=>0}
-        cats_retweets = {'texas policy' => 0, 'california policy' => 0, 'general energy sentiment' => 0}
-        @df.each do |line|
-            if line['tag'] in cats.keys
-                cats_count[line['tag']] += 1
-                cats_retweets[line['tag']] += line['retweet_count']
-            end
-        end
-        cats_retweets.each do { |key,value| block }
-            value = value/cats_count[key]
-        end
-        return @df, @df_grouped, cats_retweets
     end
 
 

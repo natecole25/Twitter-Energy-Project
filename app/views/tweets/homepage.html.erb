@@ -7,7 +7,7 @@
                     <h3> Tweets by Subject Area</h3>
                 </div>
                 <div class="card-body">
-                    <%= pie_chart @df['tag'].value_counts, class:"mt-4 mb-4"%> 
+                    <%= pie_chart Tweet.group(:tag).count(:tweet_id), class:"mt-4 mb-4"%> 
                 </div>
             </div>
     </div>
@@ -19,10 +19,11 @@
                     <h3> Tweets Through Time </h3>
                 </div>
                 <div class="card-body">
-                    <%= line_chart @df['date'].value_counts, class:"mt-4 mb-4" %>
+                    <%= line_chart Tweet.group(:date_tweeted).count(:tweet_id), class:"mt-4 mb-4" %>
                 </div>
             </div>
     </div>
+
 
 
     

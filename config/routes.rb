@@ -3,7 +3,9 @@ Rails.application.routes.draw do
   get 'tweets', to: 'tweets#show'
   get 'retweets', to: 'tweets#retweets'
   get 'likes', to: 'tweets#likes'
+  get 'form_for_tweet_creation', to: 'tweets#form_for_tweet_creation'
+  get 'create_tweet', to:  'tweets#create_tweet'
 
-  root to:  'tweets#chart'
+  root to:  'tweets#homepage'
 
 end

@@ -1,19 +1,45 @@
 <div class="container text-center">
-    <h1> Most Popular Tweets </h1>
+    <h1 class='mt-4 mb-4'> Most Popular Tweets </h1>
 
+    <% top_texas_tweets = Tweet.where("tag = 'texas policy'").select(:tweet_text, :retweet_count, :tweet_id).distinct.order('retweet_count DESC').limit(10)%>
+    <% top_texas_tweets.each do |tweet| %>
+        <div class="card mt-4 mb-4">
+                <div class="card-header" id="homepage-card-header">
+                    <h3> Top Texas Policy Tweets </h3>
+                </div>
+                <div class="card-body mt-4 mb-4">
+                    <%= tweet.tweet_text %> 
+                </div>
+                <div class="card-footer">
+                
+                    Retweets: <%= tweet.retweet_count %>
+                    --
+                    Tweet ID: <%= tweet.tweet_id %>
+                    --
+                    Tweet URL:
+                </div>
+         </div>
+    <% end %> 
 
-    <% url = URI("https://api.twitter.com/2/tweets/1424540000000000000?tweet.fields=attachments,author_id,created_at,entities,geo,id,in_reply_to_user_id,lang,possibly_sensitive,referenced_tweets,source,text,withheld") %>
-
-    <% https = Net::HTTP.new(url.host, url.port) %>
-    <% https.use_ssl = true %>
-
-    <% request = Net::HTTP::Get.new(url) %>
-
-    <%response = https.request(request) %>
-    <%= puts response.read_body %>
-
-    
-
+    <% general_energy_tweets = Tweet.where("tag = 'general energy sentiment'").order('retweet_count DESC').limit(10) %>
+    <% general_energy_tweets.each do |tweet| %>
+        <div class="card mt-4 mb-4">
+                <div class="card-header" id="homepage-card-header">
+                    <h3> Top General Energy Sentiment Tweets </h3>
+                </div>
+                <div class="card-body mt-4 mb-4">
+                    <%= tweet.tweet_text %> 
+                </div>
+                <div class="card-footer">
+                
+                    Retweets: <%= tweet.retweet_count %>
+                    --
+                    Tweet ID: <%= tweet.tweet_id %>
+                    --
+                    Tweet URL:
+                </div>
+         </div>
+    <% end %> 
         
 </div>
 
