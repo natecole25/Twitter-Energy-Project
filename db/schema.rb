@@ -10,21 +10,9 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2021_08_12_121135) do
+ActiveRecord::Schema.define(version: 2021_08_12_153546) do
 
   create_table "tweets", force: :cascade do |t|
-    t.integer "tweet_id"
-    t.text "tweet_text"
-    t.integer "retweet_count"
-    t.integer "reply_count"
-    t.integer "author_id"
-    t.datetime "created_at", precision: 6, null: false
-    t.datetime "updated_at", precision: 6, null: false
-    t.datetime "date_tweeted"
-    t.string "tag"
-  end
-
-  create_table "tweets_tables", force: :cascade do |t|
     t.integer "tweet_id"
     t.text "tweet_text"
     t.integer "retweet_count"
