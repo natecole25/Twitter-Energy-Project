@@ -4,7 +4,7 @@
             <h3> Top 100 Most Retweeted Tweets by Category </h3>
         </div>
         <div class="card-body">
-            <%= pie_chart Tweet.select(:retweet_count, :tag, :tweet_id).order('retweet_count DESC').limit(100).group(:tag).count(:tweet_id), class:"mt-4 mb-4"%> 
+            <%= pie_chart Tweet.group(:tag).order('retweet_count DESC').limit(10).count(:tweet_id), class:"mt-4 mb-4"%> 
         </div>
     </div>
  </div>
