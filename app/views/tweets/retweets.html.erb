@@ -1,14 +1,4 @@
-<div class = "row text-center">
-    <div class="card mt-4 mb-4">
-        <div class="card-header" id="homepage-card-header">
-            <h3> Top 100 Most Retweeted Tweets by Category </h3>
-        </div>
-        <div class="card-body">
-            <%= pie_chart Tweet.order(retweet_count: :desc).limit(100).group(:tag).count(:tweet_id), class:"mt-4 mb-4"%> 
-        </div>
-    </div>
- </div>
-
+<h1 class="mt-4 mb-4"> Retweets By Category </h1>
 
  <div class = "row text-center">
     <div class="card mt-4 mb-4">
