@@ -1,5 +1,9 @@
 class Tweet < ApplicationRecord
-    
+    validates :tweet_id, presence: true
+    validates :tweet_text, presence: true
+    validates :retweet_count, presence: true
+    validates :date_tweeted, presence: true
+    validates :tag, presence: true
 
     #Produced from the ruby twitter gem 
     def self.produce_client
@@ -12,4 +16,3 @@ class Tweet < ApplicationRecord
     end
 end
 
-    

@@ -4,11 +4,6 @@ class TweetsController < ApplicationController
     #Need to make sure this data is coming from database rather than spreadsheet
     def show
         
-        #@df = Daru::DataFrame.from_activerecord
-        #@df.vectors = Daru::Index.new([:date_tweeted, :tweet_id, :tag,	:tweet_text,:retweet_count ])
-        #@top_texas_tweets = @df.where(@df[:tag].eq("texas policy")).sort([:retweet_count]).last(10)[:tweet_text].uniq
-        #@general_energy_tweets = @df.where(@df[:tag].eq("general energy sentiment")).sort([:retweet_count]).last(10)[:tweet_text].uniq
-        
         @client = Twitter::REST::Client.new do |config|
             config.consumer_key        = ENV['consumer_key']
             config.consumer_secret     = ENV['consumer_secret_key']
@@ -23,8 +18,15 @@ class TweetsController < ApplicationController
     def form_for_tweet_creation
     end 
 
+
+
     #Simply displays the button for beginning to stream tweets
     def start_streaming_tweets
+    end
+
+    def stream
+        byebug
+        helpers.time_to_stream
     end
 
     #Convert spreadsheet data to database data on onetime basis
@@ -37,14 +39,56 @@ class TweetsController < ApplicationController
         redirect_to root_path
     end
 
+    def new
+        #Needed to prevent form error
+        @tweet = Tweet.new()
+    end
 
+    def create
+        #blog_params found in the private method section below.
+        @tweet = Tweet.new(tweet_params)
+
+        #Fix datetime
+        datetime=DateTime.civil(params[:date_tweeted][:year].to_i, params[:date_tweeted][:month].to_i, params[:date_tweeted][:day].to_i,
+        params[:date_tweeted][:hours].to_i,params[:date_tweeted][:minutes].to_i, params[:date_tweeted][:seconds].to_i)
+        @tweet.date_tweeted = datetime
+        
+        #validate that tweet saves
+        if @tweet.save
+            #This displays success message at the top of the page
+            flash[:notice] = "Tweet was successfully saved."
+            #This redirects to show page for blog. Ruby extracts id from @blog instance
+            redirect_to root_path
+        else
+            render 'new'
+        end
+    end
+
+    def handle_new_rule
+        #Insert rule handling logic here
+    end
+
+
+    def new_rule
+        #Simply displays rule form
+    end
 
     def homepage
     end
 
+    
+
 
     def retweets
     end
+
+
+    private 
+
+    def tweet_params
+        #Doing render plain: params will return a hash object recieved from the form through https then need to 'whitelist specific parametsr using .permit'
+        params.require(:tweet).permit(:tweet_id, :tweet_text, :tag, :retweet_count, :date_tweeted)
+      end
 
 
 

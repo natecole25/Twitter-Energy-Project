@@ -1,0 +1,69 @@
+<div class="row justify-content-md-center">
+     
+      
+    <div class="col-10">
+        <%= render 'tweets/error', obj: @tweet%>
+        <div class="row justify-content-md-center">
+            <div class="card">
+                 <div class="row justify-content-center">
+            
+           
+            
+            
+            
+                    <%= form_with(model: @tweet, class: "shadow rounded", local: true) do |form| %>
+                        
+                        <div class="col-9 mt-4 mb-4">
+                            <div class="field">
+                                <%= form.select :tag, ["Select Tweet Category", "Hurricane Fred", "texas energy policy", "general energy sentiment", "california energy policy"], class: "form-control shadow rounded" %>
+                            </div>
+                        </div>
+
+                        <div class="col-9 mt-4 mb-4">
+                        <div class="field">
+                            <%= form.text_area :tweet_text, rows: 10, class: "form-control shadow rounded", placeholder: "Tweet Text"%>
+                        </div>
+                        </div>
+
+                        <div class="col-9 mt-4 mb-4">
+                        <div class="field">
+                            <%= form.number_field :tweet_id, rows: 4, class: "form-control shadow rounded", placeholder: "Tweet ID number" %>
+                        </div>
+                        </div>
+
+                        <div class="col-9 mt-4 mb-4">
+                        <div class="field">
+                            <%= form.number_field :retweet_count, rows: 4, class: "form-control shadow rounded", placeholder: "Number of Retwets" %>
+                        </div>
+                        </div>
+
+                        <div class="col-9 mt-4 mb-4">
+                        <div class="field">
+                            <%= form.number_field :reply_count, rows: 4, class: "form-control shadow rounded", placeholder: "Number of Replies" %>
+                        </div>
+                        </div>
+
+
+
+                        <div class="col-9 mt-4 mb-4">
+                            <div class="field">
+                                <%= select_datetime Date.today, :prefix => :date_tweeted, class: "form-control shadow rounded" %>
+                            </div>
+                        </div>
+
+                        <div class="actions mt-4 mb-4">
+                            <%= form.submit class: "btn btn-primary shadow rounded"%>
+                        </div>
+                        
+                        <div class="actions mt-4 mb-4">
+                            <%= link_to 'Back', root_path, class:"btn btn-warning" %>
+                        </div>
+
+                    <% end %>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+    
+  
