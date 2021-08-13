@@ -10,7 +10,7 @@ module TweetStreamingHelper
     # The code below sets the bearer token from your environment variables
     # To set environment variables on Mac OS X, run the export command below from the terminal:
     # export BEARER_TOKEN='YOUR-TOKEN'
-    @bearer_token = "AAAAAAAAAAAAAAAAAAAAADGGSAEAAAAAVkak8YWkp4Cg8XgFnN2DEZvZ2vg%3DMKYlkaodiAhJXgr0NBcS3TFbCVavEf7hiFIPXj1e52Ijf2qGLF"
+    @bearer_token = ENV['bearer_token']
 
     @stream_url = "https://api.twitter.com/2/tweets/search/stream"
     @rules_url = "https://api.twitter.com/2/tweets/search/stream/rules"

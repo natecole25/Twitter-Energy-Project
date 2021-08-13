@@ -1,14 +1,5 @@
 class ApplicationController < ActionController::Base
 end
 
-#api_key = dQxn4q3wW1NToR1qt1lk2I3Jc
-#api_secret_key = 9IAwAw9Bk52wWyUcmCb9yw5adPcnt8EpvSFbdHo3eXOpz4EJno
-#bearer_token = AAAAAAAAAAAAAAAAAAAAADGGSAEAAAAAqlAuEQIzaTDeOt8v1Cca5tZgnEI%3D6ata3k5mU0INXfT3lKwQFWYljCqy2tD8ha5IaFcoHTByYud83t
-#access_token = 1420094938012868609-UJ5kAQqXZWhWTiZpCQKlDP2na6FpcB
-#access_token_secret = 2q6kyj7TLxsFN0kMGItat98f4h0NGRVWiCkCWeUjienUX
-
-#bearer_token = AAAAAAAAAAAAAAAAAAAAADGGSAEAAAAAVkak8YWkp4Cg8XgFnN2DEZvZ2vg%3DMKYlkaodiAhJXgr0NBcS3TFbCVavEf7hiFIPXj1e52Ijf2qGLF
-
-
 
 
