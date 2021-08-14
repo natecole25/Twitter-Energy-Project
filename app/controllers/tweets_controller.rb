@@ -23,10 +23,12 @@ class TweetsController < ApplicationController
 
     #Simply displays the button for beginning to stream tweets
     def start_streaming_tweets
+        
     end
 
     def stream
-        helpers.time_to_stream
+        system(python stream.py)
+        flash[:notice] = "streaming has begun"
     end
 
     #Convert spreadsheet data to database data on onetime basis
