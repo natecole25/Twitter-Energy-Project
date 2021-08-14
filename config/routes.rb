@@ -8,7 +8,8 @@ Rails.application.routes.draw do
   get 'start_streaming_tweets', to: 'tweets#start_streaming_tweets'
   get 'stream', to: 'tweets#stream'
   get 'new_tweet', to:'tweets#new'
-  post 'tweets', to:'tweets#create'
+  post 'create_tweets', to:'tweets#create'
+  post 'create_tweets_remotely', to: 'tweets#create_remotely'
   get 'new_rule', to: 'tweets#new_rule'
   get 'handle_new_rule', to: 'tweets#handle_new_rule'
 

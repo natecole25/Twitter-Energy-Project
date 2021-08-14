@@ -1,6 +1,7 @@
 class TweetsController < ApplicationController
     
     require 'daru/io/importers/active_record'
+
     #Need to make sure this data is coming from database rather than spreadsheet
     def show
         
@@ -25,7 +26,6 @@ class TweetsController < ApplicationController
     end
 
     def stream
-        byebug
         helpers.time_to_stream
     end
 
@@ -46,21 +46,32 @@ class TweetsController < ApplicationController
 
     def create
         #blog_params found in the private method section below.
-        @tweet = Tweet.new(tweet_params)
+        tweet = Tweet.new(tweet_params)
 
         #Fix datetime
         datetime=DateTime.civil(params[:date_tweeted][:year].to_i, params[:date_tweeted][:month].to_i, params[:date_tweeted][:day].to_i,
         params[:date_tweeted][:hours].to_i,params[:date_tweeted][:minutes].to_i, params[:date_tweeted][:seconds].to_i)
-        @tweet.date_tweeted = datetime
+        tweet.date_tweeted = datetime
         
         #validate that tweet saves
-        if @tweet.save
+        if tweet.save
             #This displays success message at the top of the page
             flash[:notice] = "Tweet was successfully saved."
             #This redirects to show page for blog. Ruby extracts id from @blog instance
             redirect_to root_path
         else
             render 'new'
+        end
+    end
+
+    def create_remotely
+        tweet = Tweet.new(tweet_id: params[:tweet_id], tweet_text: params[:tweet_text], tag: params[:tag], retweet_count: params[:retweet_count], date_tweeted: params[:date_tweeted])
+
+
+        if tweet.save
+            render json: tweet, status: :created
+        else 
+            render json: tweet.errors, status: :unprocessable_entity
         end
     end
 
@@ -88,7 +99,8 @@ class TweetsController < ApplicationController
     def tweet_params
         #Doing render plain: params will return a hash object recieved from the form through https then need to 'whitelist specific parametsr using .permit'
         params.require(:tweet).permit(:tweet_id, :tweet_text, :tag, :retweet_count, :date_tweeted)
-      end
+    end
+
 
 
 
