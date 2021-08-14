@@ -2,7 +2,7 @@
     <h1 class='mt-4 mb-4'> Most Popular Tweets By Category </h1>
     <% categories = Tweet.pluck(:tag).uniq%>
     <% categories.each do |category| %>
-        <% top_tweets = Tweet.where("tag = '#{category}'").group(:tweet_text, :retweet_count).order('retweet_count DESC').limit(3)%>
+        <% top_tweets = Tweet.where("tag = '#{category}'").order('retweet_count DESC').limit(15).select(:tweet_text).distinct()%>
         <% top_tweets.each do |tweet| %>
             <div class="card mt-4 mb-4">
                     <div class="card-header" id="homepage-card-header">
