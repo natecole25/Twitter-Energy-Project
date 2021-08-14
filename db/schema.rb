@@ -10,10 +10,10 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2021_08_12_153546) do
+ActiveRecord::Schema.define(version: 2021_08_14_173641) do
 
   create_table "tweets", force: :cascade do |t|
-    t.integer "tweet_id"
+    t.bigint "tweet_id"
     t.text "tweet_text"
     t.integer "retweet_count"
     t.integer "reply_count"
