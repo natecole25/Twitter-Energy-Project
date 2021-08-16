@@ -22,14 +22,14 @@
                     <%= link_to "View Top Tweets", tweets_path, class: 'nav-link' %>
                 </li>
 
+                <li class="nav-item <%= 'active' if request.path == rules_path%>">
+                    <%= link_to "Current Rules", rules_path, class: 'nav-link' %>
+                </li>
 
                 <li class="nav-item <%= 'active' if request.path == tweets_path%>">
                     <%= link_to "Add Rule", new_rule_path, class: 'nav-link' %>
                 </li>
-
-                <li class="nav-item <%= 'active' if request.path == tweets_path%>">
-                    <%= link_to "Manually Add Tweet to Database", new_tweet_path, class: 'nav-link' %>
-                </li>
+                
             </ul>
             
 

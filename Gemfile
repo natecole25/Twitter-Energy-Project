@@ -33,6 +33,8 @@ gem 'typhoeus'
 
 gem 'daru'
 
+gem 'httparty', '~> 0.13.7'
+
 gem 'activerecord'
 
 gem 'spreadsheet', '~> 1.2', '>= 1.2.9'

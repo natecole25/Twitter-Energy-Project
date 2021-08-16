@@ -12,6 +12,7 @@ Rails.application.routes.draw do
   post 'create_tweets_remotely', to: 'tweets#create_remotely'
   get 'new_rule', to: 'tweets#new_rule'
   get 'handle_new_rule', to: 'tweets#handle_new_rule'
+  get 'rules', to: 'tweets#show_rules'
 
   root to:  'tweets#homepage'
 

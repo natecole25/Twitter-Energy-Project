@@ -31,6 +31,12 @@ class TweetsController < ApplicationController
         flash[:notice] = "streaming has begun"
     end
 
+    def show_rules
+        @rules_url = "https://api.twitter.com/2/tweets/search/stream/rules"
+        response = HTTParty.get(@rules_url, headers: {"Authorization" => "Bearer #{ENV['bearer_token']}"})
+        @rules = JSON.parse(response.body)
+    end
+
     #Convert spreadsheet data to database data on onetime basis
     def create_tweet
         @df = Daru::DataFrame.from_excel("C:/Users/ncole/twitter_energy/energypolicy_Energy_Tweets_100.xls")

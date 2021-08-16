@@ -106,6 +106,9 @@ GEM
       domain_name (~> 0.5)
     http-form_data (2.3.0)
     http_parser.rb (0.6.0)
+    httparty (0.13.7)
+      json (~> 1.8)
+      multi_xml (>= 0.5.2)
     i18n (1.8.10)
       concurrent-ruby (~> 1.0)
     jbuilder (2.11.2)
@@ -126,6 +129,7 @@ GEM
     minitest (5.14.4)
     msgpack (1.4.2)
     multi_json (1.15.0)
+    multi_xml (0.6.0)
     multipart-post (2.1.1)
     naught (1.1.0)
     nio4r (2.5.7)
@@ -259,6 +263,7 @@ DEPENDENCIES
   city-state
   daru
   daru-io
+  httparty (~> 0.13.7)
   jbuilder (~> 2.7)
   json (~> 1.8, >= 1.8.3)
   jsonpath (~> 0.5.8)
