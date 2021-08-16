@@ -10,13 +10,14 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2021_08_16_155151) do
+ActiveRecord::Schema.define(version: 2021_08_16_192101) do
 
   create_table "tweet_rules", force: :cascade do |t|
     t.text "value"
     t.string "category"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
+    t.bigint "rule_id"
   end
 
   create_table "tweets", force: :cascade do |t|

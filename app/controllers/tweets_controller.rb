@@ -41,15 +41,16 @@ class TweetsController < ApplicationController
     def delete_rule
         rule = TweetRule.find(params[:format])
         value = rule.value
+        id = rule.rule_id
         category = rule.category
         if rule.destroy()
             flash[:notice] = "Rule was successfully deleted"
             #If saved to the model need to save it to the api
-            body_post = { "remove": [
-                {
-                "value": "#{value}",
-                "tag": "#{category}"
-                }]
+            body_post = { "delete": {
+                "ids": [
+                  "#{id}"
+                ]
+              }
             }.to_json()
 
             @rules_url = "https://api.twitter.com/2/tweets/search/stream/rules"
@@ -96,8 +97,11 @@ class TweetsController < ApplicationController
             }.to_json()
 
             @rules_url = "https://api.twitter.com/2/tweets/search/stream/rules"
-            HTTParty.post(@rules_url, headers:{"Content-type" => "application/json", "Authorization" => "Bearer #{ENV['bearer_token']}"}, body: body_post)
+            response = HTTParty.post(@rules_url, headers:{"Content-type" => "application/json", "Authorization" => "Bearer #{ENV['bearer_token']}"}, body: body_post)
+            
             redirect_to rules_path
+            official_id = response.body['data'][0]['id']
+            rule.update(rule_id: official_id)
         else
             flash[:alert] = "This rule could not be saved. Please try again"
             redirect_to new_rule_path
