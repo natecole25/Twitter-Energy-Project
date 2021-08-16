@@ -74,7 +74,8 @@ class TweetsController < ApplicationController
 
     def create_remotely
         tweet = Tweet.new(tweet_id: params[:tweet_id], tweet_text: params[:tweet_text], tag: params[:tag], retweet_count: params[:retweet_count], date_tweeted: params[:date_tweeted])
-
+        rule = TweetRule.find_by(category: tweet.tag)
+        tweet.update(tweet_rule_id: rule.id)
 
         if tweet.save
             render json: tweet, status: :created
