@@ -79,8 +79,8 @@ class TweetsController < ApplicationController
     end
 
     def handle_new_rule
-        value = params[:value].to_s
-        category = params[:tag].to_s
+        value = params[:value]
+        category = params[:tag]
         rule = TweetRule.new(value: value, category: category)
         #If saved to the model need to save it to the api
         body_post = { "add": [
