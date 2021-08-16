@@ -37,6 +37,19 @@ class TweetsController < ApplicationController
         @rules = JSON.parse(response.body)
     end
 
+    def save_rules 
+
+    end
+
+    def save_rules_one_time
+        @rules_url = "https://api.twitter.com/2/tweets/search/stream/rules"
+        response = HTTParty.get(@rules_url, headers: {"Authorization" => "Bearer #{ENV['bearer_token']}"})
+        @rules = JSON.parse(response.body)['data']
+        @rules.each do |rule|
+            TweetRule.create(value: rule['value'], category: rule['tag'])
+        end
+    end
+
     #Convert spreadsheet data to database data on onetime basis
     def create_tweet
         @df = Daru::DataFrame.from_excel("C:/Users/ncole/twitter_energy/energypolicy_Energy_Tweets_100.xls")

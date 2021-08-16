@@ -13,6 +13,8 @@ Rails.application.routes.draw do
   get 'new_rule', to: 'tweets#new_rule'
   get 'handle_new_rule', to: 'tweets#handle_new_rule'
   get 'rules', to: 'tweets#show_rules'
+  get 'save_rules', to:'tweets#save_rules'
+  get 'save_rules_one_time', to: 'tweets#save_rules_one_time'
 
   root to:  'tweets#homepage'
 
