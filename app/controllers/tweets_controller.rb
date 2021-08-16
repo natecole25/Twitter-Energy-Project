@@ -15,9 +15,6 @@ class TweetsController < ApplicationController
             
     end
 
-    #Simply displays the button for migration to database
-    def form_for_tweet_creation
-    end 
 
 
 
@@ -82,26 +79,28 @@ class TweetsController < ApplicationController
     end
 
     def handle_new_rule
-        value = params[:value].delete_prefix("'").delete_suffix("'")
-        category = params[:tag].delete_prefix("'").delete_suffix("'")
+        value = params[:value].to_s
+        category = params[:tag].to_s
         rule = TweetRule.new(value: value, category: category)
-        if rule.save()
+        #If saved to the model need to save it to the api
+        body_post = { "add": [
+            {
+            "value": value,
+            "tag": category
+            }]
+        }.to_json()
+
+        @rules_url = "https://api.twitter.com/2/tweets/search/stream/rules"
+        response = HTTParty.post(@rules_url, headers:{"Content-type" => "application/json", "Authorization" => "Bearer #{ENV['bearer_token']}"}, body: body_post)
+        
+       
+        official_id = response.body['data'][0]['id']
+
+
+        if rule.save() && response.code == 201
             flash[:notice] = "This rule was successfully saved"
-
-            #If saved to the model need to save it to the api
-            body_post = { "add": [
-                {
-                "value": "#{value}",
-                "tag": "#{category}"
-                }]
-            }.to_json()
-
-            @rules_url = "https://api.twitter.com/2/tweets/search/stream/rules"
-            response = HTTParty.post(@rules_url, headers:{"Content-type" => "application/json", "Authorization" => "Bearer #{ENV['bearer_token']}"}, body: body_post)
-            
-            redirect_to rules_path
-            official_id = response.body['data'][0]['id']
             rule.update(rule_id: official_id)
+            redirect_to rules_path
         else
             flash[:alert] = "This rule could not be saved. Please try again"
             redirect_to new_rule_path
