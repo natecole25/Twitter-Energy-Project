@@ -10,10 +10,17 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2021_08_14_173641) do
+ActiveRecord::Schema.define(version: 2021_08_16_153319) do
+
+  create_table "tweet_rules", force: :cascade do |t|
+    t.text "value"
+    t.string "category"
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+  end
 
   create_table "tweets", force: :cascade do |t|
-    t.bigint "tweet_id"
+    t.integer "tweet_id"
     t.text "tweet_text"
     t.integer "retweet_count"
     t.integer "reply_count"
@@ -22,6 +29,9 @@ ActiveRecord::Schema.define(version: 2021_08_14_173641) do
     t.string "tag"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
+    t.integer "tweet_rule_id"
+    t.index ["tweet_rule_id"], name: "index_tweets_on_tweet_rule_id"
   end
 
+  add_foreign_key "tweets", "tweet_rules"
 end

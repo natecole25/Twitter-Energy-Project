@@ -1,4 +1,5 @@
 class Tweet < ApplicationRecord
+    belongs_to :tweet_rule
     validates :tweet_id, presence: true
     validates :tweet_text, presence: true
     validates :retweet_count, presence: true
