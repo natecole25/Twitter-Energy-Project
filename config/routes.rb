@@ -15,6 +15,7 @@ Rails.application.routes.draw do
   get 'rules', to: 'tweets#show_rules'
   get 'save_rules', to:'tweets#save_rules'
   get 'save_rules_one_time', to: 'tweets#save_rules_one_time'
+  delete 'rules/', to: 'tweets#delete_rule'
 
   root to:  'tweets#homepage'
 

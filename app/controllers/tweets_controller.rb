@@ -32,58 +32,41 @@ class TweetsController < ApplicationController
     end
 
     def show_rules
-        @rules_url = "https://api.twitter.com/2/tweets/search/stream/rules"
-        response = HTTParty.get(@rules_url, headers: {"Authorization" => "Bearer #{ENV['bearer_token']}"})
-        @rules = JSON.parse(response.body)
+        @rules = TweetRule.all
+        #@rules_url = "https://api.twitter.com/2/tweets/search/stream/rules"
+        #response = HTTParty.get(@rules_url, headers: {"Authorization" => "Bearer #{ENV['bearer_token']}"})
+        #@rules = JSON.parse(response.body)
     end
 
-    def save_rules 
+    def delete_rule
+        rule = TweetRule.find(params[:format])
+        value = rule.value
+        category = rule.category
+        if rule.destroy()
+            flash[:notice] = "Rule was successfully deleted"
+            #If saved to the model need to save it to the api
+            body_post = { "remove": [
+                {
+                "value": "#{value}",
+                "tag": "#{category}"
+                }]
+            }.to_json()
 
-    end
-
-    def save_rules_one_time
-        @rules_url = "https://api.twitter.com/2/tweets/search/stream/rules"
-        response = HTTParty.get(@rules_url, headers: {"Authorization" => "Bearer #{ENV['bearer_token']}"})
-        @rules = JSON.parse(response.body)['data']
-        @rules.each do |rule|
-            TweetRule.create(value: rule['value'], category: rule['tag'])
+            @rules_url = "https://api.twitter.com/2/tweets/search/stream/rules"
+            HTTParty.post(@rules_url, headers:{"Content-type" => "application/json", "Authorization" => "Bearer #{ENV['bearer_token']}"}, body: body_post)
+            redirect_to rules_path
+        else
+            flash[:alert] = "The rule could not be deleted. Please try again later."
+            redirect_to rules_path
         end
     end
 
-    #Convert spreadsheet data to database data on onetime basis
-    def create_tweet
-        @df = Daru::DataFrame.from_excel("C:/Users/ncole/twitter_energy/energypolicy_Energy_Tweets_100.xls")
-        @df.vectors = Daru::Index.new([:date, :id,	:tag,	:text,	:retweet_count,	:reply_count,	:like_count,	:quote_count])
-        @df.each(:row) do |row|
-            Tweet.create(tweet_id: row[:id], date_tweeted: row[:date], tag: row[:tag], tweet_text: row[:text], retweet_count: row[:retweet_count]  )
-        end
-        redirect_to root_path
-    end
 
     def new
         #Needed to prevent form error
         @tweet = Tweet.new()
     end
 
-    def create
-        #blog_params found in the private method section below.
-        tweet = Tweet.new(tweet_params)
-
-        #Fix datetime
-        datetime=DateTime.civil(params[:date_tweeted][:year].to_i, params[:date_tweeted][:month].to_i, params[:date_tweeted][:day].to_i,
-        params[:date_tweeted][:hours].to_i,params[:date_tweeted][:minutes].to_i, params[:date_tweeted][:seconds].to_i)
-        tweet.date_tweeted = datetime
-        
-        #validate that tweet saves
-        if tweet.save
-            #This displays success message at the top of the page
-            flash[:notice] = "Tweet was successfully saved."
-            #This redirects to show page for blog. Ruby extracts id from @blog instance
-            redirect_to root_path
-        else
-            render 'new'
-        end
-    end
 
     def create_remotely
         tweet = Tweet.new(tweet_id: params[:tweet_id], tweet_text: params[:tweet_text], tag: params[:tag], retweet_count: params[:retweet_count], date_tweeted: params[:date_tweeted])
@@ -98,7 +81,27 @@ class TweetsController < ApplicationController
     end
 
     def handle_new_rule
-        #Insert rule handling logic here
+        value = params[:value].delete_prefix("'").delete_suffix("'")
+        category = params[:tag].delete_prefix("'").delete_suffix("'")
+        rule = TweetRule.new(value: value, category: category)
+        if rule.save()
+            flash[:notice] = "This rule was successfully saved"
+
+            #If saved to the model need to save it to the api
+            body_post = { "add": [
+                {
+                "value": "#{value}",
+                "tag": "#{category}"
+                }]
+            }.to_json()
+
+            @rules_url = "https://api.twitter.com/2/tweets/search/stream/rules"
+            HTTParty.post(@rules_url, headers:{"Content-type" => "application/json", "Authorization" => "Bearer #{ENV['bearer_token']}"}, body: body_post)
+            redirect_to rules_path
+        else
+            flash[:alert] = "This rule could not be saved. Please try again"
+            redirect_to new_rule_path
+        end
     end
 
 
