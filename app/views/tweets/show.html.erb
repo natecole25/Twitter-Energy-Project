@@ -1,6 +1,6 @@
 <div class="container text-center">
     <h1 class='mt-4 mb-4'> Most Popular Tweets By Category </h1>
-    <% retweet_bar = Tweet.order(:retweet_count :desc).limit(100).median(:retweet_count)%>
+    <% retweet_bar = Tweet.order("retweet_count DESC").limit(100).average(:retweet_count)%>
     <% categories = Tweet.pluck(:tag).uniq%>
     <% categories.each do |category| %>
         <% top_tweets = Tweet.where("tag = '#{category}'").where(["retweet_count >= ?", retweet_bar]).select(:tweet_text).distinct() %>
