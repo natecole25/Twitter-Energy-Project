@@ -1,24 +1,7 @@
 # README
 
-This README would normally document whatever steps are necessary to get the
-application up and running.
+This project is intended to provide the ability to generate real time insights into public sentiment with regard to various energy topics. The public sentiment detection is provided by querying a real time stream of tweets using twitter's V2 api. To learn more about the API and the functionality that it can provide please visit the following url:https://developer.twitter.com/en/docs/twitter-api. A user can generate a rule such as 'texas energy markets OR natural gas prices texas OR texas home electricity use' with an assigned cateogry name such as 'texas energy news' that will then query all published tweets for any of the OR seperated phrases and return all tweets that have a match. Currently as of August 2021, the twitter API allows up to 25 such rules for free accounts with a 250 character limit per rule. To learn more about how to construct a rule and how they work visit the following link: https://developer.twitter.com/en/docs/twitter-api/tweets/filtered-stream/integrate/build-a-rule
 
-Things you may want to cover:
+This project is primarily written in ruby to facilitate its implementation with Ruby on Rails. However I have personally found that the api documentation for api streaming purposes is more robust in Python and therefore have relied upon the Python Requests library to perform the role of accessing the Twitter Stream and then sending data to the website through an endpoint. The code to do this sort of process can be found within the library of this repo but needs to be run for the website to actively collect new tweets. The front end of the application is intended to provide a simple dashboard type interface for trend identification and the display of most popular tweets. This functionality can be improved and exteneded. The project's primary complication is in the running of the aforementioned python script. It is difficult to run python within a rails environment, and while Heroku, on which the underlying website is hosted, offers automatic shcheduling add ons to automatically run such a script every 15 minutes for example, because this project requires the continual running of the Python script this service would be rather expensive. Instead it is likely better to run the script during periods of time in which a specific topic is of interest. To do so it is recommended that the user get their own twitter account and substitute their various keys and tokens in the spots in which I have used Heroku's config variable authenticaiton stystem. It will also be necessary to occasionally clear the database to eliminate old tweets. I can set up the functionality to do so using a rake task with Heroku. 
 
-* Ruby version
-
-* System dependencies
-
-* Configuration
-
-* Database creation
-
-* Database initialization
-
-* How to run the test suite
-
-* Services (job queues, cache servers, search engines, etc.)
-
-* Deployment instructions
-
-* ...
+In summary, to take advantage of this project and the underlying website that can be found at https://energy-sentiment-tweet-tracker.herokuapp.com/ please copy the python script called stream.py found within the lib folder of this directory, obtain your own twitter developer account, substitute your own keys and then run the script whenever a energy topic of interest may arise. Thank you. Feel free to email me at ncole490@gmail.com if you have any questions. Thanks Nate.
